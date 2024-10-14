@@ -1,9 +1,15 @@
 import Banner from '@/components/banner/banner';
-import Card from '@/components/card/card';
+import SectionCard from '@/components/card/section-card';
 import NavBar from '@/components/nav/navbar';
 import Head from 'next/head';
+import styles from '../styles/Home.module.css';
 
 export default function Home() {
+  const disneyVideos = [
+    { imgUrl: '/static/clifford.webp' },
+    { imgUrl: '/static/clifford.webp' },
+    { imgUrl: '/static/clifford.webp' },
+  ];
   return (
     <>
       <Head>
@@ -16,9 +22,10 @@ export default function Home() {
         subTitle="a very cute dog"
         imgUrl="/static/clifford.webp"
       />
-      <Card size="large" />
-      <Card imgUrl="/static/clifford.webp" size="medium" />
-      <Card imgUrl="/static/clifford.webp" size="small" />
+      <div className={styles.sectionWrapper}>
+        <SectionCard title="Disney" videos={disneyVideos} size="large" />
+        <SectionCard title="Disney" videos={disneyVideos} size="medium" />
+      </div>
     </>
   );
 }
