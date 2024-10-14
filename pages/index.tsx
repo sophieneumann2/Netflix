@@ -1,4 +1,5 @@
 import Banner from '@/components/banner/banner';
+import NavBar from '@/components/nav/navbar';
 import Head from 'next/head';
 
 export default function Home() {
@@ -8,8 +9,7 @@ export default function Home() {
         <title>Nextflix</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1>Nextflix</h1>
-      {/* <NavBar/> */}
+      <NavBar username="sophie" />
       <Banner
         title="Clifford"
         subTitle="a very cute dog"
