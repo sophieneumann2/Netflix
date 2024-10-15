@@ -38,7 +38,7 @@ export default function Card(props: ICardProps) {
         <Image
           src={imgSrc}
           alt="image"
-          layout="fill"
+          fill
           className={styles.cardImg}
           onError={handleOnError}
         />
