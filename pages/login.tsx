@@ -35,7 +35,7 @@ export default function Login() {
     e.preventDefault();
 
     if (email) {
-      if (email === 'test@test.com') {
+      if (email === process.env.NEXT_PUBLIC_TEST_EMAIL ?? 'test@test.com') {
         try {
           setIsLoading(true);
 
