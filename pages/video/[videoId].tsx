@@ -2,26 +2,54 @@ import { useRouter } from 'next/router';
 import Modal from 'react-modal';
 import styles from '../../styles/Video.module.css';
 
+import NavBar from '@/components/nav/navbar';
+import { getYoutubeVideoById } from '@/lib/videos';
 import cls from 'classnames';
 
 Modal.setAppElement('#__next');
 
-export default function Video() {
+type VideoData = {
+  title: string;
+  publishTime: string;
+  description: string;
+  channelTitle: string;
+  statistics: {
+    viewCount: number;
+  };
+};
+
+export async function getStaticProps(context: any) {
+  const videoId = context.params.videoId;
+  const videoArray = await getYoutubeVideoById(videoId);
+  return {
+    props: { video: videoArray.length > 0 ? videoArray[0] : {} },
+    revalidate: 10,
+  };
+}
+
+export async function getStaticPaths() {
+  const listOfVideos = ['mYfJxlgR2jw', '4zH5iYM4wJo', 'KCPEHsAViiQ'];
+  const paths = listOfVideos.map((videoId) => ({
+    params: { videoId },
+  }));
+  return { paths, fallback: 'blocking' };
+}
+
+export default function Video({ video }: { video: VideoData }) {
   const router = useRouter();
   const videoId = router.query.videoId;
 
-  const video = {
-    title: 'Hello',
-    publishTime: '1990-01-01',
-    description: 'some text',
-    channelTitle: 'Üarampunt',
-    viewCount: 1000,
-  };
-
-  const { title, publishTime, description, channelTitle, viewCount } = video;
+  const {
+    title,
+    publishTime,
+    description,
+    channelTitle,
+    statistics: { viewCount } = { viewCount: 0 },
+  } = video;
 
   return (
     <div className={styles.container}>
+      <NavBar />
       <Modal
         isOpen={true}
         contentLabel="Watch the video"
