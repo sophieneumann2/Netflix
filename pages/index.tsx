@@ -23,7 +23,7 @@ export default function Home({
   popularVideos,
 }: any) {
   return (
-    <>
+    <div className={styles.container}>
       <Head>
         <title>Nextflix</title>
         <link rel="icon" href="/favicon.ico" />
@@ -47,6 +47,6 @@ export default function Home({
           <SectionCard title="Popular" videos={popularVideos} size="small" />
         </div>
       </div>
-    </>
+    </div>
   );
 }

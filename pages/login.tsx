@@ -35,26 +35,36 @@ export default function Login() {
     e.preventDefault();
 
     if (email) {
-      if (email === process.env.NEXT_PUBLIC_TEST_EMAIL ?? 'test@test.com') {
-        try {
-          setIsLoading(true);
+      try {
+        setIsLoading(true);
 
-          if (!!magic) {
-            const didToken = await magic.auth.loginWithMagicLink({
-              email,
+        if (!!magic) {
+          const didToken = await magic.auth.loginWithMagicLink({
+            email,
+          });
+          if (didToken) {
+            const response = await fetch('/api/login', {
+              method: 'POST',
+              headers: {
+                Authorization: `Bearer ${didToken}`,
+                'Content-Type': 'application/json',
+              },
             });
-            if (didToken) {
+
+            const loggedInResponse = await response.json();
+
+            if (loggedInResponse.done) {
               router.push('/');
+            } else {
+              setIsLoading(false);
+              console.error('Something went wrong logging in.');
             }
           }
-        } catch (error) {
-          // Handle errors if required!
-          setIsLoading(false);
-          console.error('Something went wrong logging in', error);
         }
-      } else {
+      } catch (error) {
+        // Handle errors if required!
         setIsLoading(false);
-        setUserMsg('Something went wrong logging in.');
+        console.error('Something went wrong logging in', error);
       }
     } else {
       setIsLoading(false);
